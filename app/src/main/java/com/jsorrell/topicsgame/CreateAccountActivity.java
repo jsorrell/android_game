@@ -1,6 +1,5 @@
 package com.jsorrell.topicsgame;
 
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,24 +7,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
-import org.apache.http.Header;
-import com.loopj.android.http.*;
-import org.json.*;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 
-public class MainActivity extends ActionBarActivity {
+public class CreateAccountActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_create_account);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_create_account, menu);
         return true;
     }
 
@@ -44,17 +42,11 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void gotoCreateAccountPage(View view) {
-        Intent intent = new Intent(this, CreateAccountActivity.class);
-        startActivity(intent);
+    public void createAccount(View view) {
+        RequestParams params = new RequestParams();
+        params.put("firstName", ((EditText)findViewById(R.id.first_name)).getText());
+        params.put("lastName", ((EditText)findViewById(R.id.last_name)).getText());
+        params.put("email", ((EditText)findViewById(R.id.email)).getText());
+        RestClient.post("users/", params, new JsonHttpResponseHandler() {});
     }
-
-    public void gotoCreateTopicPage(View view) {
-
-    }
-
-    public void gotoFriendsPage(View view) {
-
-    }
-
 }
