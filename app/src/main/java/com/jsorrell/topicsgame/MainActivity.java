@@ -6,11 +6,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
-
-import org.apache.http.Header;
-import com.loopj.android.http.*;
-import org.json.*;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -54,7 +49,8 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void gotoFriendsPage(View view) {
-
+        Intent intent = new Intent(this, FriendsActivity.class);
+        startActivity(intent);
     }
 
 }

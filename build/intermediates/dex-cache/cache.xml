@@ -9,6 +9,13 @@
         <dex dex="/home/jsorrell/Dropbox/Projects/android_game/TopicsGame/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.2-85e46505edf1cdb3162a7895209814c6069c2715.jar" />
     </item>
     <item
+        jar="/home/jsorrell/Dropbox/Projects/android_game/TopicsGame/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.1.71/classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="0f6d5c1ef2e982c3b7858408e3df389cf5d202da">
+        <dex dex="/home/jsorrell/Dropbox/Projects/android_game/TopicsGame/app/build/intermediates/pre-dexed/debug/classes-fb77bfb840ae1a17bd2fa5c1be06dcfac78c44de.jar" />
+    </item>
+    <item
         jar="/home/jsorrell/Dropbox/Projects/android_game/TopicsGame/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.2/classes.jar"
         jumboMode="false"
         revision="21.1.1"
