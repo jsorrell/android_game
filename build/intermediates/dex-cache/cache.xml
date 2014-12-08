@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/home/jsorrell/Development/android-sdk-linux/extras/android/m2repository/com/android/support/support-annotations/21.0.2/support-annotations-21.0.2.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="99373741f99a0556ee293c41e8faa1ca3ae8a4e6">
+        <dex dex="/home/jsorrell/Dropbox/Projects/android_game/TopicsGame/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.2-85e46505edf1cdb3162a7895209814c6069c2715.jar" />
+    </item>
+    <item
+        jar="/home/jsorrell/Dropbox/Projects/android_game/TopicsGame/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.2/classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="7ae2d38807a43b2f2185ff4089a92c790b579e54">
+        <dex dex="/home/jsorrell/Dropbox/Projects/android_game/TopicsGame/app/build/intermediates/pre-dexed/debug/classes-c5c3d8398a1920c7437b7d0c0a770a7ca471e0b2.jar" />
+    </item>
+    <item
+        jar="/home/jsorrell/Dropbox/Projects/android_game/TopicsGame/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.2/libs/internal_impl-21.0.2.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="962e8b12569c56dbdcf8367eb4eac8bb129cd18f">
+        <dex dex="/home/jsorrell/Dropbox/Projects/android_game/TopicsGame/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.2-2095d4e4a1e8a70581aad7e9aa79f6217cb4a9ec.jar" />
+    </item>
+    <item
+        jar="/home/jsorrell/Dropbox/Projects/android_game/TopicsGame/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.2/classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="d1bf02de1c56d942e7a9d093b8610ba1ef4128e3">
+        <dex dex="/home/jsorrell/Dropbox/Projects/android_game/TopicsGame/app/build/intermediates/pre-dexed/debug/classes-d62c307388fa11512a6b16601ac88531d0d6c4bc.jar" />
+    </item>
+    <item
+        jar="/home/jsorrell/.gradle/caches/modules-2/files-2.1/com.loopj.android/android-async-http/1.4.6/a845a88238be0b5be9d238652c1bc0605ef91f52/android-async-http-1.4.6.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="a845a88238be0b5be9d238652c1bc0605ef91f52">
+        <dex dex="/home/jsorrell/Dropbox/Projects/android_game/TopicsGame/app/build/intermediates/pre-dexed/debug/android-async-http-1.4.6-e835aa700de1c966ee79a6c9fe68ced406d5ce67.jar" />
+    </item>
+
+</items>
