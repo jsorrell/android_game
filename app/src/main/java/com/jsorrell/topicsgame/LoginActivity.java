@@ -344,11 +344,13 @@ public class LoginActivity extends GoogleApiBaseActivity implements LoaderCallba
             showProgress(false);
 
             try {
-                if (response.getString("status") != "success") {
+                if (!response.getString("status").equals("success")){
                     mPasswordView.setError(getString(R.string.error_incorrect_password));
                     mPasswordView.requestFocus();
+                    return;
                 }
 
+                Log.d("LOGIN", "SUCCESS");
                 prefs.edit().putString("firstName", response.getString("firstName"));
                 prefs.edit().putString("lastName", response.getString("lastName"));
                 prefs.edit().putString("email", response.getString("email"));
@@ -383,7 +385,7 @@ public class LoginActivity extends GoogleApiBaseActivity implements LoaderCallba
             p.put("password", mPassword);
 
             //handler has to verify the login
-            RestClient.post("login/" + mEmail, p, new LoginResponseHandler());
+            RestClient.get("login/" + mEmail, p, new LoginResponseHandler());
 
             // TODO: register the new account here.
         }
