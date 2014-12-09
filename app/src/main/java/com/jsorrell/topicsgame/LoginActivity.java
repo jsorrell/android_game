@@ -6,8 +6,11 @@ import android.annotation.TargetApi;
 
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -16,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,6 +33,13 @@ import android.widget.TextView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.SignInButton;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,14 +54,6 @@ import java.util.List;
  * and follow the steps in "Step 1" to create an OAuth 2.0 client for your package.
  */
 public class LoginActivity extends PlusBaseActivity implements LoaderCallbacks<Cursor> {
-
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -331,11 +334,41 @@ public class LoginActivity extends PlusBaseActivity implements LoaderCallbacks<C
         mEmailView.setAdapter(adapter);
     }
 
+    public class LoginResponseHandler extends JsonHttpResponseHandler {
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, JSONObject response){
+            SharedPreferences prefs = getApplicationContext().
+                                      getSharedPreferences("com.jsorrell.topicsgame",
+                                                            Context.MODE_PRIVATE);
+
+            mAuthTask = null;
+            showProgress(false);
+
+            try {
+                if (response.getString("status") != "success") {
+                    mPasswordView.setError(getString(R.string.error_incorrect_password));
+                    mPasswordView.requestFocus();
+                }
+
+                prefs.edit().putString("firstName", response.getString("firstName"));
+                prefs.edit().putString("lastName", response.getString("lastName"));
+                prefs.edit().putString("email", response.getString("email"));
+                prefs.edit().putInt("userid", response.getInt("userid"));
+
+                Intent intent = new Intent(this, MainActivity.Class);
+                startActivity(intent);
+                finish();
+            } catch(JSONException e) {
+                Log.v("Exception", e.toString());
+            }
+        }
+    }
+
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserLoginTask {
 
         private final String mEmail;
         private final String mPassword;
@@ -343,51 +376,14 @@ public class LoginActivity extends PlusBaseActivity implements LoaderCallbacks<C
         UserLoginTask(String email, String password) {
             mEmail = email;
             mPassword = password;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
+            RequestParams p = new RequestParams();
+            p.put("password", mPassword);
 
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
+            //handler has to verify the login
+            RestClient.post("login/" + email, p, new LoginResponseHandler());
 
             // TODO: register the new account here.
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
         }
     }
 }
-
-
-
