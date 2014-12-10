@@ -351,10 +351,12 @@ public class LoginActivity extends GoogleApiBaseActivity implements LoaderCallba
                 }
 
                 Log.d("LOGIN", "SUCCESS");
-                prefs.edit().putString("firstName", response.getString("firstName"));
-                prefs.edit().putString("lastName", response.getString("lastName"));
-                prefs.edit().putString("email", response.getString("email"));
-                prefs.edit().putInt("userid", response.getInt("userid"));
+                SharedPreferences.Editor prefEditor = prefs.edit();
+                prefEditor.putString("firstName", response.getString("firstName"));
+                prefEditor.putString("lastName", response.getString("lastName"));
+                prefEditor.putString("email", response.getString("email"));
+                prefEditor.putInt("userid", response.getInt("userid"));
+                prefEditor.commit();
 
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
