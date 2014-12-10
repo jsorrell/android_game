@@ -383,9 +383,9 @@ public class LoginActivity extends GoogleApiBaseActivity implements LoaderCallba
             // TODO: attempt authentication against a network service.
             RequestParams p = new RequestParams();
             p.put("password", mPassword);
-
+            p.put("email",  mEmail);
             //handler has to verify the login
-            RestClient.get("login/" + mEmail, p, new LoginResponseHandler());
+            RestClient.get("login/", p, new LoginResponseHandler());
 
             // TODO: register the new account here.
         }
