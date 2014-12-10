@@ -31,4 +31,13 @@
         android:layout_alignTop="@+id/find_friend_button"
         android:layout_alignParentStart="true"
         android:layout_toStartOf="@+id/find_friend_button" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Done"
+        android:id="@+id/select_friends_done"
+        android:layout_alignBottom="@+id/friends_list_view"
+        android:layout_alignEnd="@+id/friends_list_view"
+        android:onClick="finishSelectingFriends"/>
 </RelativeLayout>

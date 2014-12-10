@@ -1,6 +1,8 @@
 package com.jsorrell.topicsgame;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -8,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -23,9 +26,9 @@ import java.util.List;
 
 
 public class FriendsActivity extends ActionBarActivity {
-
     private static final String TAG = "FriendsActivity";
     private JSONArray friendList = new JSONArray();
+    private ArrayList<Integer>selectedFriends;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,10 +65,22 @@ public class FriendsActivity extends ActionBarActivity {
                 FriendsActivity.this.friendList = response.getJSONArray("friendList");
 
                 ListView lv = (ListView) findViewById(R.id.friends_list_view);
-                JSONListAdapter listAdapter = new JSONListAdapter(
+                final JSONListAdapter listAdapter = new JSONListAdapter(
                                                                   FriendsActivity.this,
                                                                   R.layout.friend_list_item,
                                                                   FriendsActivity.this.friendList);
+
+                lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+                    @Override
+                    public void onItemClick(AdapterView<?>adapter, View v, int position, long id){
+                        try {
+                            int userId = listAdapter.getItem(position).getInt("userId");
+                            selectedFriends.add(userId);
+                        } catch (JSONException e) {
+                            Log.e("Exception", e.toString());
+                        }
+                    }
+                });
 
                 lv.setAdapter(listAdapter);
 
@@ -86,5 +101,12 @@ public class FriendsActivity extends ActionBarActivity {
     }
 
     public void findFriendPressed(View view) {
+    }
+
+    public void finishSelectingFriends(View view){
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("result", selectedFriends);
+        setResult(RESULT_OK, returnIntent);
+        finish();
     }
 }

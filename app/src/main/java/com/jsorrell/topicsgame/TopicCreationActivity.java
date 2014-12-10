@@ -1,6 +1,7 @@
 package com.jsorrell.topicsgame;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -14,6 +15,8 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 public class TopicCreationActivity extends ActionBarActivity {
+    private ArrayList<Integer> userIds = new ArrayList();
+    static final int SELECT_FRIENDS_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +48,6 @@ public class TopicCreationActivity extends ActionBarActivity {
     }
 
     public void createTopic(View view){
-        ArrayList<Integer> userIds = new ArrayList();
-        userIds.add(1);
         SharedPreferences prefs = this.getSharedPreferences("com.jsorrell.topicsgame",
                                                              Context.MODE_PRIVATE);
         int myId = prefs.getInt("userId", -1);
@@ -57,5 +58,22 @@ public class TopicCreationActivity extends ActionBarActivity {
         RestClient.post("/users/" + Integer.toString(myId) + "/games",
                         params,
                         new JsonHttpResponseHandler() {});
+    }
+
+    public void selectFriends(View view){
+        Intent selectFriendsIntent = new Intent(this, FriendsActivity.class);
+        selectFriendsIntent.putExtra("purpose", "selectFriends");
+        startActivityForResult(selectFriendsIntent, SELECT_FRIENDS_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == SELECT_FRIENDS_REQUEST) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                userIds = data.getIntegerArrayListExtra("selectedFriends");
+            }
+        }
     }
 }
