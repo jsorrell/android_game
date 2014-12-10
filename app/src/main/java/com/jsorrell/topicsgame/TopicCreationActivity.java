@@ -15,7 +15,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 public class TopicCreationActivity extends ActionBarActivity {
-    private ArrayList<Integer> userIds = new ArrayList();
+    private ArrayList<Integer> userIds = new ArrayList<>();
     static final int SELECT_FRIENDS_REQUEST = 1;
 
     @Override

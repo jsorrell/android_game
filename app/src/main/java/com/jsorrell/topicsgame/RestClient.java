@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class RestClient {
     static final String baseUrl = App.getContext().getString(R.string.rest_url);
-    static final int port = 8080;
+    static final int port = App.getContext().getResources().getInteger(R.integer.rest_port);
     static final AsyncHttpRequest asyncRequest = new AsyncHttpRequest(port);
     static final HttpRequest syncRequest = new HttpRequest(port);
 
