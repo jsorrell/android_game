@@ -1,5 +1,7 @@
 package com.jsorrell.topicsgame;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -45,7 +47,9 @@ public class TopicCreationActivity extends ActionBarActivity {
     public void createTopic(View view){
         ArrayList<Integer> userIds = new ArrayList();
         userIds.add(1);
-        int myId = 2;
+        SharedPreferences prefs = this.getSharedPreferences("com.jsorrell.topicsgame",
+                                                             Context.MODE_PRIVATE);
+        int myId = prefs.getInt("userId", -1);
         RequestParams params = new RequestParams();
         params.put("topic", ((EditText)findViewById(R.id.topic_field)).getText());
         params.put("creator", myId);
