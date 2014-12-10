@@ -1,5 +1,7 @@
 package com.jsorrell.topicsgame;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +11,13 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,12 +25,13 @@ import java.util.List;
 public class FriendsActivity extends ActionBarActivity {
 
     private static final String TAG = "FriendsActivity";
+    private ArrayList<Integer> friendList = new ArrayList();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -45,30 +55,40 @@ public class FriendsActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public class FriendListResponseHandler extends JsonHttpResponseHandler {
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            try {
+                JSONArray result = response.getJSONArray("friendList");
+                for (int i = 0; i < result.length(); i++) {
+                    Log.d("Length", Integer.toString(result.length()));
+                    FriendsActivity.this.friendList.add(result.getInt(i));
+                }
+
+                ListView lv = (ListView) findViewById(R.id.friends_list_view);
+                ArrayAdapter<Integer> arrayAdapter = new ArrayAdapter<Integer>(
+                        FriendsActivity.this,
+                        android.R.layout.simple_list_item_1,
+                        FriendsActivity.this.friendList);
+
+                lv.setAdapter(arrayAdapter);
+
+            } catch (JSONException e){
+                Log.v("EXCEPTION", e.toString());
+            }
+
+        }
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d(TAG,"start");
-        ListView lv = (ListView) findViewById(R.id.friends_list_view);
-
-        // Instanciating an array list (you don't need to do this,
-        // you already have yours).
-        List<String> your_array_list = new ArrayList<String>();
-        your_array_list.add("foo");
-        your_array_list.add("bar");
-
-        // This is the array adapter, it takes the context of the activity as a
-        // first parameter, the type of list view as a second parameter and your
-        // array as a third parameter.
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_list_item_1,
-                your_array_list );
-
-        lv.setAdapter(arrayAdapter);
+        SharedPreferences prefs = this.getSharedPreferences("com.jsorrell.topicsgame",
+                Context.MODE_PRIVATE);
+        int myId = prefs.getInt("userId", -1);
+        RestClient.get("user/" + myId + "/friendList", null, new FriendListResponseHandler());
     }
 
     public void findFriendPressed(View view) {
-
     }
 }

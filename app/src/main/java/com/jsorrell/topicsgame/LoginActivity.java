@@ -355,11 +355,13 @@ public class LoginActivity extends GoogleApiBaseActivity implements LoaderCallba
                 prefEditor.putString("firstName", response.getString("firstName"));
                 prefEditor.putString("lastName", response.getString("lastName"));
                 prefEditor.putString("email", response.getString("email"));
-                prefEditor.putInt("userid", response.getInt("userid"));
+                prefEditor.putInt("userId", response.getInt("userId"));
                 prefEditor.commit();
 
+                Log.d("LOGIN", "ABOUT TO SEND INTENT");
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
+                Log.d("LOGIN", "INTENT SENT");
                 finish();
             } catch(JSONException e) {
                 Log.v("Exception", e.toString());
@@ -372,7 +374,6 @@ public class LoginActivity extends GoogleApiBaseActivity implements LoaderCallba
      * the user.
      */
     public class UserLoginTask {
-
         private final String mEmail;
         private final String mPassword;
 
@@ -387,8 +388,7 @@ public class LoginActivity extends GoogleApiBaseActivity implements LoaderCallba
             p.put("password", mPassword);
             p.put("email",  mEmail);
             //handler has to verify the login
-            RestClient.get("login/", p, new LoginResponseHandler());
-
+            RestClient.get("login", p, new LoginResponseHandler());
             // TODO: register the new account here.
         }
     }
