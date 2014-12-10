@@ -253,9 +253,9 @@ public class LoginActivity extends GoogleApiBaseActivity implements LoaderCallba
         //TODO: Update this logic to also handle the user logged in by email.
         boolean connected = getGoogleApiClient ().isConnected();
 
-        mSignOutButtons.setVisibility(connected ? View.VISIBLE : View.GONE);
+        //mSignOutButtons.setVisibility(connected ? View.VISIBLE : View.GONE);
         mPlusSignInButton.setVisibility(connected ? View.GONE : View.VISIBLE);
-        mEmailLoginFormView.setVisibility(connected ? View.GONE : View.VISIBLE);
+        //mEmailLoginFormView.setVisibility(connected ? View.GONE : View.VISIBLE);
     }
 
     @Override
