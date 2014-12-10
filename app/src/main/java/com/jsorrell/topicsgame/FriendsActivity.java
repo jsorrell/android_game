@@ -25,7 +25,7 @@ import java.util.List;
 public class FriendsActivity extends ActionBarActivity {
 
     private static final String TAG = "FriendsActivity";
-    private ArrayList<Integer> friendList = new ArrayList();
+    private JSONArray friendList = new JSONArray();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,22 +59,18 @@ public class FriendsActivity extends ActionBarActivity {
         @Override
         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
             try {
-                JSONArray result = response.getJSONArray("friendList");
-                for (int i = 0; i < result.length(); i++) {
-                    Log.d("Length", Integer.toString(result.length()));
-                    FriendsActivity.this.friendList.add(result.getInt(i));
-                }
+                FriendsActivity.this.friendList = response.getJSONArray("friendList");
 
                 ListView lv = (ListView) findViewById(R.id.friends_list_view);
-                ArrayAdapter<Integer> arrayAdapter = new ArrayAdapter<Integer>(
-                        FriendsActivity.this,
-                        android.R.layout.simple_list_item_1,
-                        FriendsActivity.this.friendList);
+                JSONListAdapter listAdapter = new JSONListAdapter(
+                                                                  FriendsActivity.this,
+                                                                  R.layout.friend_list_item,
+                                                                  FriendsActivity.this.friendList);
 
-                lv.setAdapter(arrayAdapter);
+                lv.setAdapter(listAdapter);
 
             } catch (JSONException e){
-                Log.v("EXCEPTION", e.toString());
+                Log.e("EXCEPTION", e.toString());
             }
 
         }
