@@ -49,13 +49,13 @@ public class CreateAccountActivity extends ActionBarActivity {
         SharedPreferences prefs = this.getSharedPreferences("com.jsorrell.topicsgame", Context.MODE_PRIVATE);
         String firstName = ((EditText)findViewById(R.id.first_name)).getText().toString();
         params.put("firstName", firstName);
-        prefs.edit().putString("firstName",firstName);
         String lastName = ((EditText)findViewById(R.id.last_name)).getText().toString();
         params.put("lastName", lastName);
-        prefs.edit().putString("lastName",lastName);
         String email = ((EditText)findViewById(R.id.email)).getText().toString();
         params.put("email", email);
-        prefs.edit().putString("email",email);
         RestClient.post("users/", params, new JsonHttpResponseHandler() {});
+        prefs.edit().putString("firstName",firstName);
+        prefs.edit().putString("lastName",lastName);
+        prefs.edit().putString("email",email);
     }
 }
