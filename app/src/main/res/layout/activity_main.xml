@@ -13,16 +13,6 @@
         android:layout_centerHorizontal="true"
         android:weightSum="1">
 
-
-        <Button
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:text="Create Account"
-            android:id="@+id/create_account"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="0.20"
-            android:onClick="gotoCreateAccountPage" />
-
         <Button
             android:layout_width="250dp"
             android:layout_height="wrap_content"

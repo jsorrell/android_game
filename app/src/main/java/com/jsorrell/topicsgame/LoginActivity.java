@@ -33,6 +33,7 @@ import android.widget.TextView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.SignInButton;
+import com.jsorrell.topicsgame.HttpRequest.AsyncHttpRequest;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -383,13 +384,7 @@ public class LoginActivity extends GoogleApiBaseActivity implements LoaderCallba
         }
 
         public void tryLogin(){
-            // TODO: attempt authentication against a network service.
-            RequestParams p = new RequestParams();
-            p.put("password", mPassword);
-            p.put("email",  mEmail);
-            //handler has to verify the login
-            RestClient.get("login", p, new LoginResponseHandler());
-            // TODO: register the new account here.
+            RestClient.sendLoginRequestAsync(mEmail,mPassword,new LoginResponseHandler());
         }
     }
 }

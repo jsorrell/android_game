@@ -51,14 +51,9 @@ public class TopicCreationActivity extends ActionBarActivity {
         SharedPreferences prefs = this.getSharedPreferences("com.jsorrell.topicsgame",
                                                              Context.MODE_PRIVATE);
         int myId = prefs.getInt("userId", -1);
-        RequestParams params = new RequestParams();
-        params.put("topic", ((EditText)findViewById(R.id.topic_field)).getText());
-        params.put("creator", myId);
-        params.put("players", userIds);
-        RestClient.post("/users/" + Integer.toString(myId) + "/games",
-                        params,
-                        new JsonHttpResponseHandler() {});
+        RestClient.sendTopicCreationRequestAsync(myId,((EditText)findViewById(R.id.topic_field)).getText().toString(),userIds, new JsonHttpResponseHandler());
     }
+
 
     public void selectFriends(View view){
         Intent selectFriendsIntent = new Intent(this, FriendsActivity.class);

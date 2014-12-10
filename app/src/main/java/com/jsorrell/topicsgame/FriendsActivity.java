@@ -1,6 +1,5 @@
 package com.jsorrell.topicsgame;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -97,7 +95,8 @@ public class FriendsActivity extends ActionBarActivity {
         SharedPreferences prefs = this.getSharedPreferences("com.jsorrell.topicsgame",
                 Context.MODE_PRIVATE);
         int myId = prefs.getInt("userId", -1);
-        RestClient.get("user/" + myId + "/friendList", null, new FriendListResponseHandler());
+
+        RestClient.getAsyncFriendListAsync(myId, new FriendListResponseHandler());
     }
 
     public void findFriendPressed(View view) {

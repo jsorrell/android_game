@@ -10,20 +10,16 @@ import android.view.View;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
 
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -37,12 +33,17 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        context = getApplicationContext();
         // Check device for Play Services APK. If check succeeds, proceed with GCM registration.
         if (checkPlayServices()) {
             gcm = GoogleCloudMessaging.getInstance(this);
-            regid = getRegistrationId(context);
+            regId = getRegistrationId(context);
 
-            if (regid.isEmpty()) {
+            Log.i(TAG,"regId: "+regId);
+
+            if (regId.isEmpty()) {
+                Log.e(TAG,"registering in background");
                 registerInBackground();
             }
         } else {
@@ -80,11 +81,6 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void gotoCreateAccountPage(View view) {
-        Intent intent = new Intent(this, CreateAccountActivity.class);
-        startActivity(intent);
-    }
-
     public void gotoCreateTopicPage(View view) {
         Intent intent = new Intent(this, TopicCreationActivity.class);
         startActivity(intent);
@@ -107,13 +103,10 @@ public class MainActivity extends ActionBarActivity {
      * Tag used on log messages.
      */
     static final String TAG = "GCM";
-
-    TextView mDisplay;
     GoogleCloudMessaging gcm;
-    AtomicInteger msgId = new AtomicInteger();
     Context context;
 
-    String regid;
+    String regId;
 
 
 
@@ -146,6 +139,8 @@ public class MainActivity extends ActionBarActivity {
      */
     private void storeRegistrationId(Context context, String regId) {
         final SharedPreferences prefs = getGcmPreferences(context);
+        if (context == null)
+            Log.d("HELP","1");
         int appVersion = getAppVersion(context);
         Log.i(TAG, "Saving regId on app version " + appVersion);
         SharedPreferences.Editor editor = prefs.edit();
@@ -170,7 +165,7 @@ public class MainActivity extends ActionBarActivity {
             return "";
         }
         // Check if app was updated; if so, it must clear the registration ID
-        // since the existing regID is not guaranteed to work with the new
+        // since the existing regId is not guaranteed to work with the new
         // app version.
         int registeredVersion = prefs.getInt(PROPERTY_APP_VERSION, Integer.MIN_VALUE);
         int currentVersion = getAppVersion(context);
@@ -188,7 +183,7 @@ public class MainActivity extends ActionBarActivity {
      * shared preferences.
      */
     private void registerInBackground() {
-        new AsyncTask<Void, Void, String>() {
+        AsyncTask task = new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
                 String msg = "";
@@ -196,19 +191,22 @@ public class MainActivity extends ActionBarActivity {
                     if (gcm == null) {
                         gcm = GoogleCloudMessaging.getInstance(context);
                     }
-                    regid = gcm.register(SENDER_ID);
-                    msg = "Device registered, registration ID=" + regid;
+                    regId = gcm.register(SENDER_ID);
+                    msg = "Device registered, registration ID=" + regId;
 
                     // You should send the registration ID to your server over HTTP, so it
                     // can use GCM/HTTP or CCS to send messages to your app.
-                    sendRegistrationIdToBackend();
+                    SharedPreferences prefs = context.getSharedPreferences("com.jsorrell.topicsgame", Context.MODE_PRIVATE);
+                    int userId = prefs.getInt("userId", -1);
+                    RestClient.sendRegistrationIdSync(userId, regId, new JsonHttpResponseHandler());
 
                     // For this demo: we don't need to send it because the device will send
                     // upstream messages to a server that echo back the message using the
                     // 'from' address in the message.
 
-                    // Persist the regID - no need to register again.
-                    storeRegistrationId(context, regid);
+                    // Persist the regId - no need to register again.
+                    Log.i(TAG,"Storing regId: "+regId);
+                    storeRegistrationId(context, regId);
                 } catch (IOException ex) {
                     msg = "Error :" + ex.getMessage();
                     // If there is an error, don't just keep trying to register.
@@ -220,9 +218,9 @@ public class MainActivity extends ActionBarActivity {
 
             @Override
             protected void onPostExecute(String msg) {
-                mDisplay.append(msg + "\n");
             }
-        }.execute(null, null, null);
+        };
+        task.execute();
     }
 
     @Override
@@ -249,16 +247,8 @@ public class MainActivity extends ActionBarActivity {
      */
     private SharedPreferences getGcmPreferences(Context context) {
         // This sample app persists the registration ID in shared preferences, but
-        // how you store the regID in your app is up to you.
+        // how you store the regId in your app is up to you.
         return getSharedPreferences(MainActivity.class.getSimpleName(),
                 Context.MODE_PRIVATE);
-    }
-    /**
-     * Sends the registration ID to your server over HTTP, so it can use GCM/HTTP or CCS to send
-     * messages to your app. Not needed for this demo since the device sends upstream messages
-     * to a server that echoes back the message using the 'from' address in the message.
-     */
-    private void sendRegistrationIdToBackend() {
-        // Your implementation here.
     }
 }
