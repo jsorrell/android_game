@@ -73,7 +73,6 @@ public class LoginActivity extends GoogleApiBaseActivity implements LoaderCallba
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         // Find the Google+ sign in button.
         mPlusSignInButton = (SignInButton) findViewById(R.id.plus_sign_in_button);
         if (supportsGooglePlayServices()) {
@@ -88,7 +87,6 @@ public class LoginActivity extends GoogleApiBaseActivity implements LoaderCallba
             // Don't offer G+ sign in if the app's version is too low to support Google Play
             // Services.
             mPlusSignInButton.setVisibility(View.GONE);
-            return;
         }
 
         // Set up the login form.

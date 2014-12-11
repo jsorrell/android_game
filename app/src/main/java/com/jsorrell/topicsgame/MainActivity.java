@@ -188,6 +188,7 @@ public class MainActivity extends ActionBarActivity {
             protected String doInBackground(Void... params) {
                 String msg = "";
                 try {
+                    Log.v("ASYNC","hi");
                     if (gcm == null) {
                         gcm = GoogleCloudMessaging.getInstance(context);
                     }
