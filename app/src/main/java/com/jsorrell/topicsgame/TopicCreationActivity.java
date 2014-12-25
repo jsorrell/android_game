@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,7 +16,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 public class TopicCreationActivity extends ActionBarActivity {
-    private ArrayList<Integer> userIds = new ArrayList();
+    private ArrayList<Integer> userIds = new ArrayList<>();
     static final int SELECT_FRIENDS_REQUEST = 1;
 
     @Override
@@ -23,7 +24,6 @@ public class TopicCreationActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_topic_creation);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -51,7 +51,11 @@ public class TopicCreationActivity extends ActionBarActivity {
         SharedPreferences prefs = this.getSharedPreferences("com.jsorrell.topicsgame",
                                                              Context.MODE_PRIVATE);
         int myId = prefs.getInt("userId", -1);
-        RestClient.sendTopicCreationRequestAsync(myId,((EditText)findViewById(R.id.topic_field)).getText().toString(),userIds, new JsonHttpResponseHandler());
+        RestClient.sendTopicCreationRequestAsync(
+                                    myId,
+                                    ((EditText)findViewById(R.id.topic_field)).getText().toString(),
+                                    userIds,
+                                    new JsonHttpResponseHandler());
     }
 
 
@@ -68,6 +72,9 @@ public class TopicCreationActivity extends ActionBarActivity {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
                 userIds = data.getIntegerArrayListExtra("selectedFriends");
+                if(userIds.size() != 0) {
+                    Log.d("USERIDS", Integer.toString(userIds.get(0)));
+                }
             }
         }
     }

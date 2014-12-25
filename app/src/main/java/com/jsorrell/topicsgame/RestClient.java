@@ -10,8 +10,6 @@ import java.util.ArrayList;
  * Created by jsorrell on 12/7/14.
  */
 
-
-
 public class RestClient {
     static final String baseUrl = App.getContext().getString(R.string.rest_url);
     static final int port = 8080;
@@ -39,17 +37,21 @@ public class RestClient {
         syncRequest.post(getAbsoluteUrl("users/" + Integer.toString(userId) + "/reg/" + regId), params, responseHandler);
     }
 
-    public static void getAsyncFriendListAsync(int userId, JsonHttpResponseHandler responseHandler) {
-        asyncRequest.get(getAbsoluteUrl("user/" + userId + "/friendList"), null, responseHandler);
+    public static void getFriendListAsync(int userId, JsonHttpResponseHandler responseHandler) {
+        asyncRequest.get(getAbsoluteUrl("user/" + userId + "/friends"), null, responseHandler);
     }
 
     public static void sendTopicCreationRequestAsync(int userId, String topic, ArrayList<Integer> userIds, JsonHttpResponseHandler responseHandler) {
         RequestParams params = new RequestParams();
-        params.put("topic", topic);
+        params.put("gameTopic", topic);
         params.put("creator", userId);
         params.put("players", userIds);
         asyncRequest.post(getAbsoluteUrl("/users/" + Integer.toString(userId) + "/games"),
                 params,
                 responseHandler);
+    }
+
+    public static void getGamesListAsync(int userId, JsonHttpResponseHandler responseHandler) {
+        asyncRequest.get(getAbsoluteUrl("users/" + userId + "/games"), null, responseHandler);
     }
 }

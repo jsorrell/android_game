@@ -91,7 +91,11 @@ public class MainActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
-
+    public void gotoGamesPage(View view) {
+        Log.d("Starting", "game");
+        Intent intent = new Intent(this, GamesActivity.class);
+        startActivity(intent);
+    }
 
     /**
      * Substitute you own sender ID here. This is the project number you got
@@ -183,7 +187,8 @@ public class MainActivity extends ActionBarActivity {
      * shared preferences.
      */
     private void registerInBackground() {
-        AsyncTask task = new AsyncTask<Void, Void, String>() {
+        Log.d("HERE", "registerinbackground2");
+        new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
                 String msg = "";
@@ -191,6 +196,7 @@ public class MainActivity extends ActionBarActivity {
                     if (gcm == null) {
                         gcm = GoogleCloudMessaging.getInstance(context);
                     }
+                    Log.d("HERE", "registerinbackground");
                     regId = gcm.register(SENDER_ID);
                     msg = "Device registered, registration ID=" + regId;
 
@@ -219,8 +225,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             protected void onPostExecute(String msg) {
             }
-        };
-        task.execute();
+        }.execute();
     }
 
     @Override

@@ -88,7 +88,6 @@ public class LoginActivity extends GoogleApiBaseActivity implements LoaderCallba
             // Don't offer G+ sign in if the app's version is too low to support Google Play
             // Services.
             mPlusSignInButton.setVisibility(View.GONE);
-            return;
         }
 
         // Set up the login form.

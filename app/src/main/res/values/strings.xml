@@ -6,5 +6,6 @@
     <string name="title_activity_create_account">CreateAccountActivity</string>
     <string name="title_activity_topic_creation">TopicCreationActivity</string>
     <string name="title_activity_friends">FriendsActivity</string>
-    <string name="rest_url" >http://192.168.1.36/api/</string>
+    <string name="title_activity_games">GamesActivity</string>
+    <string name="rest_url">http://192.168.2.3/api/</string>
 </resources>

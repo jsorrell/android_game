@@ -34,4 +34,14 @@
         android:layout_below="@+id/topic_field"
         android:layout_alignParentStart="true"
         android:onClick="createTopic"/>
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Friends"
+        android:id="@+id/select_friends_button"
+        android:layout_below="@id/create_topic_button"
+        android:layout_alignParentStart="true"
+        android:onClick="selectFriends"/>
 </RelativeLayout>
