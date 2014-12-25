@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">TopicsGame</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -8,4 +9,7 @@
     <string name="title_activity_friends">FriendsActivity</string>
     <string name="title_activity_games">GamesActivity</string>
     <string name="rest_url">http://192.168.2.3/api/</string>
+    <string name="title_activity_pending_games">PendingGamesActivity</string>
+    <string name="title_activity_active_games">ActiveGamesActivity</string>
+
 </resources>

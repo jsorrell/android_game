@@ -24,9 +24,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class GamesActivity extends ActionBarActivity {
-    private JSONArray gamesList = new JSONArray();
-    static final int SELECT_FRIENDS_REQUEST = 1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,43 +52,13 @@ public class GamesActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        SharedPreferences prefs = this.getSharedPreferences("com.jsorrell.topicsgame",
-                Context.MODE_PRIVATE);
-        int myId = prefs.getInt("userId", -1);
-        RestClient.getGamesListAsync(myId, new GamesListResponseHandler());
+    public void gotoPendingGames(View view) {
+        Intent intent = new Intent(this, PendingGamesActivity.class);
+        startActivity(intent);
     }
 
-    public class GamesListResponseHandler extends JsonHttpResponseHandler {
-        @Override
-        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-            try {
-                GamesActivity.this.gamesList = response.getJSONArray("games");
-
-                ListView lv = (ListView) findViewById(R.id.games_list_view);
-                final JSONListAdapter gamesAdapter = new GamesListAdapter(
-                        GamesActivity.this,
-                        R.layout.game_list_item,
-                        GamesActivity.this.gamesList);
-
-                lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-                    @Override
-                    public void onItemClick(AdapterView<?>adapter, View v, int position, long id){
-                        try {
-                            int gameId = gamesAdapter.getItem(position).getInt("gameId");
-                        } catch (JSONException e) {
-                            Log.e("Exception", e.toString());
-                        }
-                    }
-                });
-
-                lv.setAdapter(gamesAdapter);
-
-            } catch (JSONException e){
-                Log.e("EXCEPTION", e.toString());
-            }
-        }
+    public void gotoActiveGames(View view) {
+        Intent intent = new Intent(this, ActiveGamesActivity.class);
+        startActivity(intent);
     }
 }

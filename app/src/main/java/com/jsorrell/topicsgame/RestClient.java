@@ -51,7 +51,11 @@ public class RestClient {
                 responseHandler);
     }
 
-    public static void getGamesListAsync(int userId, JsonHttpResponseHandler responseHandler) {
+    public static void getActiveGamesListAsync(int userId, JsonHttpResponseHandler responseHandler) {
         asyncRequest.get(getAbsoluteUrl("users/" + userId + "/games"), null, responseHandler);
+    }
+
+    public static void getPendingGamesListAsync(int userId, JsonHttpResponseHandler responseHandler) {
+        asyncRequest.get(getAbsoluteUrl("users/" + userId + "games/pending"), null, responseHandler);
     }
 }

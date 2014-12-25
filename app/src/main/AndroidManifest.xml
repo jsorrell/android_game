@@ -12,26 +12,31 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" /> <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-    
+
     <!-- notifications -->
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
-    <permission android:name="com.jsorrell.topicsgame.permission.C2D_MESSAGE"
+    <permission
+        android:name="com.jsorrell.topicsgame.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
+
     <uses-permission android:name="com.jsorrell.topicsgame.permission.C2D_MESSAGE" />
 
     <!-- Keeps the processor from sleeping when a message is received. -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        android:name=".App" >
+        android:theme="@style/AppTheme" >
+
         <!-- Required for applications which use Google Play Services. -->
-        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
@@ -58,6 +63,7 @@
             android:windowSoftInputMode="adjustResize|stateHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -65,19 +71,39 @@
             android:name=".TopicCreationActivity"
             android:label="@string/title_activity_topic_creation" >
         </activity>
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
         <receiver
             android:name=".GcmBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
                 <category android:name="com.jsorrell.topicsgame" />
             </intent-filter>
         </receiver>
+
         <service android:name=".GcmIntentService" />
-        
+
+        <activity
+            android:name=".PendingGamesActivity"
+            android:label="@string/title_activity_pending_games"
+            android:parentActivityName=".GamesActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.jsorrell.topicsgame.GamesActivity" />
+        </activity>
+        <activity
+            android:name=".ActiveGamesActivity"
+            android:label="@string/title_activity_active_games"
+            android:parentActivityName=".GamesActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.jsorrell.topicsgame.GamesActivity" />
+        </activity>
     </application>
 
 </manifest>
