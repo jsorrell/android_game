@@ -47,15 +47,24 @@ public class RestClient {
         params.put("creator", userId);
         params.put("players", userIds);
         asyncRequest.post(getAbsoluteUrl("/users/" + Integer.toString(userId) + "/games"),
-                params,
-                responseHandler);
+                          params,
+                          responseHandler);
     }
 
+    public static void sendGamesAcceptedAsync(int userId, ArrayList<Integer> acceptedGames,
+                                              JsonHttpResponseHandler responseHandler)
+    {
+        RequestParams params = new RequestParams();
+        params.put("acceptedGames", acceptedGames);
+        asyncRequest.post(getAbsoluteUrl("users/" + userId + "/games/pending"),
+                          params,
+                          responseHandler);
+    }
     public static void getActiveGamesListAsync(int userId, JsonHttpResponseHandler responseHandler) {
         asyncRequest.get(getAbsoluteUrl("users/" + userId + "/games"), null, responseHandler);
     }
 
     public static void getPendingGamesListAsync(int userId, JsonHttpResponseHandler responseHandler) {
-        asyncRequest.get(getAbsoluteUrl("users/" + userId + "games/pending"), null, responseHandler);
+        asyncRequest.get(getAbsoluteUrl("users/" + userId + "/games/pending"), null, responseHandler);
     }
 }

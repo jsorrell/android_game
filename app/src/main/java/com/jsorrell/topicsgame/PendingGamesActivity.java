@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -18,9 +19,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 
 public class PendingGamesActivity extends ActionBarActivity {
     private JSONArray gamesList = new JSONArray();
+    private ArrayList<Integer> acceptedGames = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +68,7 @@ public class PendingGamesActivity extends ActionBarActivity {
         @Override
         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
             try {
-                PendingGamesActivity.this.gamesList = response.getJSONArray("games");
+                PendingGamesActivity.this.gamesList = response.getJSONArray("pendingGames");
 
                 ListView lv = (ListView) findViewById(R.id.games_list_view);
                 final JSONListAdapter gamesAdapter = new GamesListAdapter(
@@ -77,6 +81,7 @@ public class PendingGamesActivity extends ActionBarActivity {
                     public void onItemClick(AdapterView<?>adapter, View v, int position, long id){
                         try {
                             int gameId = gamesAdapter.getItem(position).getInt("gameId");
+                            acceptedGames.add(gameId);
                         } catch (JSONException e) {
                             Log.e("Exception", e.toString());
                         }
@@ -88,6 +93,25 @@ public class PendingGamesActivity extends ActionBarActivity {
             } catch (JSONException e){
                 Log.e("EXCEPTION", e.toString());
             }
+        }
+    }
+
+    public void sendAcceptedGames(View view){
+        SharedPreferences prefs = this.getSharedPreferences("com.jsorrell.topicsgame",
+                                                            Context.MODE_PRIVATE);
+        int myId = prefs.getInt("userId", -1);
+        if (myId < 0) {
+            return;
+        }
+
+        RestClient.sendGamesAcceptedAsync(myId, acceptedGames, new sendGameAcceptResponseHandler());
+    }
+
+    public class sendGameAcceptResponseHandler extends JsonHttpResponseHandler {
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            Log.d("send", "notacceptedgames");
+            finish();
         }
     }
 }

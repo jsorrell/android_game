@@ -25,7 +25,7 @@ public class ActiveGamesActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pending_games);
+        setContentView(R.layout.activity_active_games);
     }
 
 

@@ -73,7 +73,7 @@ public class FriendsActivity extends ActionBarActivity {
                     public void onItemClick(AdapterView<?>adapter, View v, int position, long id){
                         try {
                             int userId = listAdapter.getItem(position).getInt("userId");
-                            selectedFriends.add(userId);
+                                selectedFriends.add(userId);
                         } catch (JSONException e) {
                             Log.e("Exception", e.toString());
                         }
