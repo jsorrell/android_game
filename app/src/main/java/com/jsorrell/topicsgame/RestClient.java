@@ -1,5 +1,7 @@
 package com.jsorrell.topicsgame;
 
+import android.util.Log;
+
 import com.jsorrell.topicsgame.HttpRequest.AsyncHttpRequest;
 import com.jsorrell.topicsgame.HttpRequest.HttpRequest;
 import com.loopj.android.http.*;
@@ -38,7 +40,47 @@ public class RestClient {
     }
 
     public static void getFriendListAsync(int userId, JsonHttpResponseHandler responseHandler) {
-        asyncRequest.get(getAbsoluteUrl("user/" + userId + "/friends"), null, responseHandler);
+        asyncRequest.get(getAbsoluteUrl("users/" + userId + "/friends"), null, responseHandler);
+    }
+
+    public static void getPendingFriendsAsync(int userId, JsonHttpResponseHandler responseHandler) {
+        asyncRequest.get(getAbsoluteUrl("users/" + userId + "/friends/pending"),
+                                        null,
+                                        responseHandler);
+    }
+
+    public static void searchFriend(String name, JsonHttpResponseHandler responseHandler) {
+        String[] nameParts = name.split("\\s+");
+        Log.v("name", nameParts[0]);
+        Log.v("name", nameParts[1]);
+        RequestParams params = new RequestParams();
+        params.put("firstName", nameParts[0]);
+        params.put("lastName", nameParts[1]);
+        asyncRequest.get(getAbsoluteUrl("users"), params, responseHandler);
+    }
+
+    public static void sendFriendRequest(int myId,
+                                         int potential_friend_id,
+                                         JsonHttpResponseHandler responseHandler)
+    {
+        RequestParams params = new RequestParams();
+        params.put("status", 0);
+        params.put("potential_friend", potential_friend_id);
+        asyncRequest.post(getAbsoluteUrl("/users/" + Integer.toString(myId) + "/friends/pending"),
+                                         params,
+                                         responseHandler);
+    }
+
+    public static void acceptFriendRequest(int myId,
+                                           int potential_friend_id,
+                                           JsonHttpResponseHandler responseHandler)
+    {
+        RequestParams params = new RequestParams();
+        params.put("status", 1);
+        params.put("potential_friend", potential_friend_id);
+        asyncRequest.post(getAbsoluteUrl("/users/" + Integer.toString(myId) + "/friends/pending"),
+                          params,
+                          responseHandler);
     }
 
     public static void sendTopicCreationRequestAsync(int userId, String topic, ArrayList<Integer> userIds, JsonHttpResponseHandler responseHandler) {

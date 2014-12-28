@@ -60,7 +60,7 @@ public class TopicCreationActivity extends ActionBarActivity {
 
 
     public void selectFriends(View view){
-        Intent selectFriendsIntent = new Intent(this, FriendsActivity.class);
+        Intent selectFriendsIntent = new Intent(this, ActiveFriendsActivity.class);
         selectFriendsIntent.putExtra("purpose", "selectFriends");
         startActivityForResult(selectFriendsIntent, SELECT_FRIENDS_REQUEST);
     }

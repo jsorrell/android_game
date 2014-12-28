@@ -6,38 +6,39 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.jsorrell.topicsgame.FriendsActivity">
 
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/friends_list_view"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:choiceMode="none"
-        android:layout_below="@+id/find_friend_button" />
+        android:weightSum="1">
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Find Friend"
-        android:id="@+id/find_friend_button"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:onClick="findFriendPressed" />
+        <Button
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="Find Friends"
+            android:id="@+id/create_topic_button"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.20"
+            android:onClick="gotoFindFriends" />
 
-    <SearchView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/searchView"
-        android:layout_alignTop="@+id/find_friend_button"
-        android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/find_friend_button" />
+        <Button
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="Friends"
+            android:id="@+id/friends_button"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.20"
+            android:onClick="gotoFriends" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Done"
-        android:id="@+id/select_friends_done"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:onClick="finishSelectingFriends"/>
+        <Button
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="Pending Friends"
+            android:id="@+id/games_button"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.20"
+            android:onClick="gotoPendingFriends" />
+    </LinearLayout>
 </RelativeLayout>

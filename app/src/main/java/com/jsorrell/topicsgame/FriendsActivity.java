@@ -1,38 +1,21 @@
 package com.jsorrell.topicsgame;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-
-import com.loopj.android.http.JsonHttpResponseHandler;
-
-import org.apache.http.Header;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class FriendsActivity extends ActionBarActivity {
-    private static final String TAG = "FriendsActivity";
-    private JSONArray friendList = new JSONArray();
-    private ArrayList<Integer>selectedFriends = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -56,55 +39,18 @@ public class FriendsActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public class FriendListResponseHandler extends JsonHttpResponseHandler {
-        @Override
-        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-            try {
-                FriendsActivity.this.friendList = response.getJSONArray("friendList");
-
-                ListView lv = (ListView) findViewById(R.id.friends_list_view);
-                final JSONListAdapter listAdapter = new FriendsListAdapter(
-                                                                  FriendsActivity.this,
-                                                                  R.layout.friend_list_item,
-                                                                  FriendsActivity.this.friendList);
-
-                lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-                    @Override
-                    public void onItemClick(AdapterView<?>adapter, View v, int position, long id){
-                        try {
-                            int userId = listAdapter.getItem(position).getInt("userId");
-                                selectedFriends.add(userId);
-                        } catch (JSONException e) {
-                            Log.e("Exception", e.toString());
-                        }
-                    }
-                });
-
-                lv.setAdapter(listAdapter);
-
-            } catch (JSONException e){
-                Log.e("EXCEPTION", e.toString());
-            }
-        }
+    public void gotoFindFriends(View view) {
+        Intent intent = new Intent(this, FindFriendsActivity.class);
+        startActivity(intent);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        SharedPreferences prefs = this.getSharedPreferences("com.jsorrell.topicsgame",
-                Context.MODE_PRIVATE);
-        int myId = prefs.getInt("userId", -1);
-
-        RestClient.getFriendListAsync(myId, new FriendListResponseHandler());
+    public void gotoFriends(View view) {
+        Intent intent = new Intent(this, ActiveFriendsActivity.class);
+        startActivity(intent);
     }
 
-    public void findFriendPressed(View view) {
-    }
-
-    public void finishSelectingFriends(View view){
-        Intent returnIntent = new Intent();
-        returnIntent.putExtra("selectedFriends", selectedFriends);
-        setResult(RESULT_OK, returnIntent);
-        finish();
+    public void gotoPendingFriends(View view) {
+        Intent intent = new Intent(this, PendingFriendsActivity.class);
+        startActivity(intent);
     }
 }

@@ -104,6 +104,18 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.jsorrell.topicsgame.GamesActivity" />
         </activity>
+        <activity
+            android:name=".FindFriendsActivity"
+            android:label="@string/title_activity_find_friends" >
+        </activity>
+        <activity
+            android:name=".ActiveFriendsActivity"
+            android:label="@string/title_activity_active_friends" >
+        </activity>
+        <activity
+            android:name=".PendingFriendsActivity"
+            android:label="@string/title_activity_pending_friends" >
+        </activity>
     </application>
 
 </manifest>
