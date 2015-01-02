@@ -20,20 +20,23 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class ActiveGamesActivity extends ActionBarActivity {
-    private JSONArray gamesList = new JSONArray();
+public class ViewSubmissionsActivity extends ActionBarActivity {
+    private int gameId = 0;
+    JSONArray submissionsList = new JSONArray();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Intent intent = getIntent();
+        gameId = intent.getIntExtra("gameId", -1);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_active_games);
+        setContentView(R.layout.activity_view_submissions);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_pending_games, menu);
+        getMenuInflater().inflate(R.menu.menu_view_submissions, menu);
         return true;
     }
 
@@ -58,29 +61,36 @@ public class ActiveGamesActivity extends ActionBarActivity {
         SharedPreferences prefs = this.getSharedPreferences("com.jsorrell.topicsgame",
                 Context.MODE_PRIVATE);
         int myId = prefs.getInt("userId", -1);
-        RestClient.getActiveGamesListAsync(myId, new GamesListResponseHandler());
+        RestClient.getSubmissions(myId, gameId, new SubmissionListResponseHandler());
     }
 
-    public class GamesListResponseHandler extends JsonHttpResponseHandler {
+    public class SubmissionListResponseHandler extends JsonHttpResponseHandler {
         @Override
         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
             try {
-                ActiveGamesActivity.this.gamesList = response.getJSONArray("games");
+                ViewSubmissionsActivity.this.submissionsList = response.getJSONArray("submissions");
 
-                ListView lv = (ListView) findViewById(R.id.games_list_view);
-                final JSONListAdapter gamesAdapter = new GamesListAdapter(
-                        ActiveGamesActivity.this,
-                        R.layout.game_list_item,
-                        ActiveGamesActivity.this.gamesList);
+                ListView lv = (ListView) findViewById(R.id.submissions_list_view);
+
+                final JSONListAdapter submissionsAdapter = new SubmissionsListAdapter(
+                                                      ViewSubmissionsActivity.this,
+                                                      R.layout.submission_list_item,
+                                                      ViewSubmissionsActivity.this.submissionsList);
 
                 lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
                     @Override
                     public void onItemClick(AdapterView<?>adapter, View v, int position, long id){
                         try {
-                            int gameId = gamesAdapter.getItem(position).getInt("gameId");
-                            Intent intent = new Intent(ActiveGamesActivity.this,
-                                                       SubmissionActivity.class);
-                            intent.putExtra("gameId", gameId);
+                            int submissionId =
+                                        submissionsAdapter.getItem(position).getInt("submissionId");
+                            //case on type of file
+
+                            //image
+                            Intent intent = new Intent(ViewSubmissionsActivity.this,
+                                                       ViewImageActivity.class);
+
+                            //video
+                            intent.putExtra("submissionId", submissionId);
                             startActivity(intent);
                         } catch (JSONException e) {
                             Log.e("Exception", e.toString());
@@ -88,7 +98,7 @@ public class ActiveGamesActivity extends ActionBarActivity {
                     }
                 });
 
-                lv.setAdapter(gamesAdapter);
+                lv.setAdapter(submissionsAdapter);
 
             } catch (JSONException e){
                 Log.e("EXCEPTION", e.toString());

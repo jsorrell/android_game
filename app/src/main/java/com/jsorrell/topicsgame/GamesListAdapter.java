@@ -24,12 +24,12 @@ public class GamesListAdapter extends JSONListAdapter {
             convertView = super.activity.getLayoutInflater().inflate(super.entry_view_id, null);
         }
 
-        TextView text = (TextView)convertView.findViewById(R.id.game_list_item);
-
         JSONObject json_data = getItem(position);
-        if(null!=json_data){
+        TextView t1 = (TextView) convertView.findViewById(R.id.game_list_item);
+
+        if(null != json_data){
             try {
-                text.setText(this.jsonArray.getJSONObject(position).getString("gameTopic"));
+                t1.setText(this.jsonArray.getJSONObject(position).getString("gameTopic"));
             } catch (JSONException e) {
                 Log.e("Exception", e.toString());
             }

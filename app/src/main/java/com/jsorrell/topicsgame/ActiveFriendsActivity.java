@@ -65,7 +65,7 @@ public class ActiveFriendsActivity extends ActionBarActivity {
                 ListView lv = (ListView) findViewById(R.id.friends_list_view);
                 final JSONListAdapter listAdapter = new FriendsListAdapter(
                         ActiveFriendsActivity.this,
-                        R.layout.friend_list_item,
+                        R.id.friend_list_item,
                         ActiveFriendsActivity.this.friendList);
 
                 lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){

@@ -6,6 +6,8 @@ import com.jsorrell.topicsgame.HttpRequest.AsyncHttpRequest;
 import com.jsorrell.topicsgame.HttpRequest.HttpRequest;
 import com.loopj.android.http.*;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 /**
@@ -51,8 +53,9 @@ public class RestClient {
 
     public static void searchFriend(String name, JsonHttpResponseHandler responseHandler) {
         String[] nameParts = name.split("\\s+");
-        Log.v("name", nameParts[0]);
-        Log.v("name", nameParts[1]);
+        if (nameParts.length < 2) {
+            return;
+        }
         RequestParams params = new RequestParams();
         params.put("firstName", nameParts[0]);
         params.put("lastName", nameParts[1]);
@@ -108,5 +111,37 @@ public class RestClient {
 
     public static void getPendingGamesListAsync(int userId, JsonHttpResponseHandler responseHandler) {
         asyncRequest.get(getAbsoluteUrl("users/" + userId + "/games/pending"), null, responseHandler);
+    }
+
+    public static void uploadSubmission(int userId,
+                                        int gameId,
+                                        JsonHttpResponseHandler responseHandler,
+                                        InputStream data)
+    {
+        RequestParams params = new RequestParams();
+        params.put("test", 1);
+        params.put("data", data);
+        asyncRequest.post(getAbsoluteUrl("users/" + userId + "/games" + gameId + "/submissions"),
+                                          params,
+                                          responseHandler);
+    }
+
+    public static void getSubmissions(int userId,
+                                      int gameId,
+                                      JsonHttpResponseHandler responseHandler)
+    {
+        Log.v("submission", Integer.toString(gameId));
+        asyncRequest.get(getAbsoluteUrl("users/" + userId + "/games/" + gameId + "/submissions"),
+                                        null,
+                                        responseHandler);
+    }
+
+    public static void getSpecificSubmission(int userId,
+                                             int submissionId,
+                                             FileAsyncHttpResponseHandler responseHandler)
+    {
+        asyncRequest.get(getAbsoluteUrl("users/" + userId + "/submissions/" + submissionId),
+                         null,
+                         responseHandler);
     }
 }

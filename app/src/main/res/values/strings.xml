@@ -14,5 +14,10 @@
     <string name="title_activity_find_friends">FindFriendsActivity</string>
     <string name="title_activity_active_friends">ActiveFriendsActivity</string>
     <string name="title_activity_pending_friends">PendingFriendsActivity</string>
+    <string name="title_activity_submission">SubmissionActivity</string>
+    <string name="title_activity_new_submission">NewSubmission</string>
+    <string name="title_activity_view_submissions">ViewSubmissionsActivity</string>
+    <string name="title_activity_view_specific_submission">ViewSpecificSubmissionActivity</string>
+    <string name="title_activity_view_image">ViewImageActivity</string>
 
 </resources>

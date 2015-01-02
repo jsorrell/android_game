@@ -11,10 +11,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created by carl on 12/24/14.
+ * Created by carl on 12/31/14.
  */
-public class FriendsListAdapter extends JSONListAdapter {
-    public FriendsListAdapter(Activity activity, int entry_view_id, JSONArray jsonArray) {
+public class SubmissionsListAdapter extends JSONListAdapter {
+    public SubmissionsListAdapter(Activity activity, int entry_view_id, JSONArray jsonArray) {
         super(activity, entry_view_id, jsonArray);
     }
 
@@ -25,13 +25,14 @@ public class FriendsListAdapter extends JSONListAdapter {
         }
 
         JSONObject json_data = getItem(position);
-        TextView t1 = (TextView)convertView.findViewById(R.id.friend_list_item);
-
+        TextView t1 = (TextView)convertView.findViewById(R.id.submission_list_item);
         if(null!=json_data){
             try {
                 t1.setText(this.jsonArray.getJSONObject(position).getString("firstName") +
                            " " +
-                           this.jsonArray.getJSONObject(position).getString("lastName"));
+                           this.jsonArray.getJSONObject(position).getString("lastName") +
+                           ": " +
+                           this.jsonArray.getJSONObject(position).getString("title"));
             } catch (JSONException e) {
                 Log.e("Exception", e.toString());
             }
