@@ -130,15 +130,15 @@
         </activity>
         <activity
             android:name=".ViewSubmissionsActivity"
-            android:label="@string/title_activity_view_submissions"
-            android:parentActivityName=".SubmissionActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.jsorrell.topicsgame.SubmissionActivity" />
+            android:label="@string/title_activity_view_submissions" >
         </activity>
         <activity
             android:name=".ViewImageActivity"
             android:label="@string/title_activity_view_image" >
+        </activity>
+        <activity
+            android:name=".ViewVideoActivity"
+            android:label="@string/title_activity_view_video" >
         </activity>
     </application>
 

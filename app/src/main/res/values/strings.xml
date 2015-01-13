@@ -8,7 +8,7 @@
     <string name="title_activity_topic_creation">TopicCreationActivity</string>
     <string name="title_activity_friends">FriendsActivity</string>
     <string name="title_activity_games">GamesActivity</string>
-    <string name="rest_url">http://192.168.2.3/api/</string>
+    <string name="rest_url">http://192.168.1.4/api/</string>
     <string name="title_activity_pending_games">PendingGamesActivity</string>
     <string name="title_activity_active_games">ActiveGamesActivity</string>
     <string name="title_activity_find_friends">FindFriendsActivity</string>
@@ -19,5 +19,6 @@
     <string name="title_activity_view_submissions">ViewSubmissionsActivity</string>
     <string name="title_activity_view_specific_submission">ViewSpecificSubmissionActivity</string>
     <string name="title_activity_view_image">ViewImageActivity</string>
+    <string name="title_activity_view_video">ViewVideoActivity</string>
 
 </resources>

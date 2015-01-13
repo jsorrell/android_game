@@ -87,7 +87,7 @@ public class ViewSubmissionsActivity extends ActionBarActivity {
 
                             //image
                             Intent intent = new Intent(ViewSubmissionsActivity.this,
-                                                       ViewImageActivity.class);
+                                                       ViewVideoActivity.class);
 
                             //video
                             intent.putExtra("submissionId", submissionId);
